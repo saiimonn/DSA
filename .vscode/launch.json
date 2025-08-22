@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/simongementiza/Desktop/Projects/DSA/Exam-1/ADT-List/Array-Based",
+      "program": "/Users/simongementiza/Desktop/Projects/DSA/Exam-1/ADT-List/Array-Based/build/Debug/outDebug"
+    }
+  ]
+}
