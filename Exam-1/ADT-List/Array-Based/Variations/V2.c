@@ -44,7 +44,7 @@ void initialize(List *L) {
 void insertFirst(List *L, int x) {
     if((*L)->count != MAX) {
         int i;
-        for(i = (*L)->count; i >= 0; i--) {
+        for(i = (*L)->count; i > 0; i--) {
             (*L)->elements[i] = (*L)->elements[i - 1];
         }
         (*L)->elements[0] = x;

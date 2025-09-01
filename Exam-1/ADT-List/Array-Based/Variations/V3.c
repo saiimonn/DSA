@@ -55,7 +55,7 @@ void insertFirst(List *L, int x) {
     }
 
     int i;
-    for(i = L->count; i >= 0; L->elemPtr[i] = L->elemPtr[i - 1], i--) {}
+    for(i = L->count; i > 0; L->elemPtr[i] = L->elemPtr[i - 1], i--) {}
     L->elemPtr[0] = x;
     L->count++;
 

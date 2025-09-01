@@ -11,23 +11,12 @@ void initList(List *list) {
     list->count = 0;
 }
 
-int isFull(List *list) {
-    return list->count == SIZE;
-}
-
-int isEmpty(List *list) {
-    return list->count == 0;
-}
-
 void insert(List *list, int data) {
-    if(isFull(list)) return;
-
-    for(int i = list->count; i > 0; i--) {
-        list->data[i] = list->data[i - 1];
+    if(list->count != SIZE) {
+        for(int i = list->count; i > 0; list->data[i] = list->data[i - 1], i--) {}
+        list->data[0] = data;
+        list->count++;
     }
-
-    list->data[0] = data;
-    list->count++;
 }
 
 void print(List *list) {
