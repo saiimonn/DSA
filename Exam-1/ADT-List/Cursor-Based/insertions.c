@@ -69,10 +69,10 @@ void insertSorted(VirtualHeap *VH, List *L, char elem) {
             VH->nodes[idx].link = *L;
             *L = idx;
         } else {
-            List prev, trav;
-            for(prev = *L, trav = VH->nodes[*L].link; trav != -1 && VH->nodes[trav].elem < elem; prev = trav, trav = VH->nodes[trav].link) {}
-            VH->nodes[idx].link = trav;
-            VH->nodes[prev].link = idx; // insert the new node between prev and trav
+            List *trav;
+            for(trav = L; *trav != -1 && VH->nodes[*trav].elem < elem; trav = &(VH->nodes[*trav].link)) {}
+            VH->nodes[idx].link = *trav;
+            *trav = idx;
         }
     }
 }
