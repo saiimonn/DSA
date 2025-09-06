@@ -13,7 +13,7 @@ typedef struct {
 void init(Queue *);
 void enqueue(Queue *, int);
 void dequeue(Queue *);
-void read(Queue);
+void read(Queue *);
 int front(Queue);
 bool empty(Queue);
 bool full(Queue);
@@ -22,13 +22,13 @@ int main() {
     Queue Q;
     init(&Q);
 
-    enqueue(&Q, 123);
+    enqueue(&Q, 123); //front
     enqueue(&Q, 141);
-    enqueue(&Q, 362);
+    enqueue(&Q, 362); //rear
 
     dequeue(&Q);
 
-    read(Q);
+    read(&Q);
 }
 
 void init(Queue *Q) {
@@ -64,14 +64,14 @@ void dequeue(Queue *Q) {
     }
 }
 
-void read(Queue Q) {
-    if(!empty(Q)) {
+void read(Queue *Q) {
+    if(!empty(*Q)) {
         int i;
-        for(i = 0; i < Q.count; i++) {
-            int print = Q.data[Q.front];
-            dequeue(&Q);
-            enqueue(&Q, print);
-            printf("%d ", print);
+        for(i = 0; i < Q->count; i++) {
+            int x = Q->data[Q->front];
+            dequeue(Q);
+            enqueue(Q, x);
+            printf("%d ", x);
         }
     }
 }
