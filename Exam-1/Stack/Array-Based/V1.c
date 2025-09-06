@@ -13,21 +13,20 @@ bool full(Stack);
 bool empty(Stack);
 void push(Stack *, char);
 void pop(Stack *);
-void read(Stack);
+void read(Stack *);
 int top(Stack);
 
 int main() {
     Stack S;
     init(&S);
 
-    push(&S, 'n');
-    push(&S, 'i');
-    push(&S, 'g');
-    push(&S, 'g');
-    push(&S, 'e');
-    push(&S, 'r');
+    push(&S, 'D');
+    push(&S, 'C');
+    push(&S, 'I');
+    push(&S, 'S');
+    push(&S, 'M'); //top. idx MAX - 1
 
-    read(S);
+    read(&S);
 }
 
 void init(Stack *S) {
@@ -58,10 +57,19 @@ int top(Stack S) {
     return S.top + 1;
 }
 
-void read(Stack S) {
-    while(!empty(S)) {
-        int temp = top(S);
-        printf("| %c | idx: %d\n", S.elem[temp], temp);
-        pop(&S);
+void read(Stack *S) {
+    Stack temp;
+    init(&temp);
+
+    while(!empty(*S)) {
+        char x = S->elem[top(*S)];
+        printf("|  %c  | index: %d\n", x, top(*S));
+        push(&temp, x);
+        pop(S);
+    }
+
+    while(!empty(temp)) {
+        push(S, temp.elem[temp.top]);
+        pop(&temp);
     }
 }

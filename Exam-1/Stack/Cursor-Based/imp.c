@@ -35,12 +35,11 @@ int main() {
     Stack S;
     initStack(&S);
 
-    push(&VH, &S, 'r');
-    push(&VH, &S, 'e');
-    push(&VH, &S, 'g');
-    push(&VH, &S, 'g');
-    push(&VH, &S, 'i');
-    push(&VH, &S, 'n');
+    push(&VH, &S, 'M');
+    push(&VH, &S, 'S');
+    push(&VH, &S, 'I');
+    push(&VH, &S, 'C');
+    push(&VH, &S, 'D');
 
     read(VH, S);
 }

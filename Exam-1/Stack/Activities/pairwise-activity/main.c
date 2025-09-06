@@ -25,13 +25,11 @@ int main() {
 
     initialize(&St);
 
-    push(&St, 'n');
-    push(&St, 'i');
-    push(&St, 'g');
-    push(&St, 'g');
-    push(&St, 'e');
-    push(&St, 'r');
-    push(&St, 's');
+    push(&St, 'D');
+    push(&St, 'C');
+    push(&St, 'I');
+    push(&St, 'S');
+    push(&St, 'M');
 
     printf("Array: \n");
 

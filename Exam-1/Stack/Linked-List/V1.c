@@ -19,12 +19,11 @@ int main() {
     Stack S;
     init(&S);
 
-    push(&S, 'r');
-    push(&S, 'e');
-    push(&S, 'g');
-    push(&S, 'g');
-    push(&S, 'i');
-    push(&S, 'n');
+    push(&S, 'M');
+    push(&S, 'S');
+    push(&S, 'I');
+    push(&S, 'C');
+    push(&S, 'D');
 
     read(S);
 }

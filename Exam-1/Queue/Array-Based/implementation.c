@@ -7,6 +7,7 @@ typedef struct {
     int data[MAX];
     int rear;
     int front;
+    int count;
 } Queue;
 
 void init(Queue *);
@@ -33,6 +34,7 @@ int main() {
 void init(Queue *Q) {
     Q->rear = MAX - 1;
     Q->front = 0;
+    Q->count = 0;
 }
 
 bool empty(Queue Q) {
@@ -51,20 +53,25 @@ void enqueue(Queue *Q, int x) {
     if(!full(*Q)) {
         Q->rear = (Q->rear + 1) % MAX;
         Q->data[Q->rear] = x;
+        Q->count++;
     }
 }
 
 void dequeue(Queue *Q) {
     if(!empty(*Q)) {
         Q->front = (Q->front + 1) % MAX;
+        Q->count--;
     }
 }
 
 void read(Queue Q) {
     if(!empty(Q)) {
         int i;
-        for(i = Q.front; i < (Q.rear + 1) % MAX; i = (i + 1) % MAX) {
-            printf("| %d |", Q.data[i]);
+        for(i = 0; i < Q.count; i++) {
+            int print = Q.data[Q.front];
+            dequeue(&Q);
+            enqueue(&Q, print);
+            printf("%d ", print);
         }
     }
 }
