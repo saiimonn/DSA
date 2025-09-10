@@ -11,7 +11,7 @@ typedef struct node {
 void init(Stack *);
 void push(Stack *, char);
 void pop(Stack *);
-void read(Stack);
+void read(Stack *);
 int top(Stack);
 bool empty(Stack);
 
@@ -25,7 +25,7 @@ int main() {
     push(&S, 'C');
     push(&S, 'D');
 
-    read(S);
+    read(&S);
 }
 
 void init(Stack *S) {
@@ -57,9 +57,19 @@ int top(Stack S) {
     return S->elem;
 }
 
-void read(Stack S) {
-    while(!empty(S)) {
-        printf("| %c |\n", top(S));
-        pop(&S);
-    }
+void read(Stack *S) {
+	Stack temp;
+	init(&temp);
+
+	while(!empty(*S)) {
+		char x = top(*S);
+		printf("|  %c  |\n", x);
+		push(&temp, x);
+		pop(S);
+	}
+
+	while(!empty(temp)) {
+		push(S, top(temp));
+		pop(&temp);
+	}
 }

@@ -30,7 +30,7 @@ int main() {
 }
 
 void init(Stack *S) {
-    S->top = MAX - 1;
+    S->top = MAX;
 }
 
 bool full(Stack S) {
@@ -38,12 +38,12 @@ bool full(Stack S) {
 }
 
 bool empty(Stack S) {
-    return (S.top == MAX - 1) ? true : false;
+    return (S.top == MAX) ? true : false;
 }
 
 void push(Stack *S, char x) {
     if(!full(*S)) {
-        S->elem[S->top--] = x;
+        S->elem[--S->top] = x;
     }
 }
 
@@ -54,7 +54,7 @@ void pop(Stack *S) {
 }
 
 int top(Stack S) {
-    return S.top + 1;
+    return S.top;
 }
 
 void read(Stack *S) {
