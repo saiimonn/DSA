@@ -91,18 +91,39 @@ void initStack(Stack *S) {
 
 void insertSorted(VHeap *VH, Stack *S, int data) {
     //implement here.....
-	int idx = allocSpace(VH);
-	if(idx != -1) {
-		VH->VHNode[idx].elem.data = data;
-		VH->VHNode[idx].next = -1;
-		if(*S == -1 || data <= VH->VHNode[*S].elem.data) {
+	Stack temp;
+	initStack(&temp);
+
+	while(*S != -1 && VH->VHNode[*S].elem.data < data) {
+		int idx = allocSpace(VH);
+		if(idx != -1) {
+			VH->VHNode[idx].elem = VH->VHNode[*S].elem;
+			VH->VHNode[idx].next = temp;
+			temp = idx;
+
+			int tempTop = *S;
+			*S = VH->VHNode[*S].next;
+			freeSpace(VH, tempTop);
+		}
+	}
+
+	int newIdx = allocSpace(VH);
+	if(newIdx != -1) {
+		VH->VHNode[newIdx].elem.data = data;
+		VH->VHNode[newIdx].next = *S;
+		*S = newIdx;
+	}
+
+	while(temp != -1) {
+		int idx = allocSpace(VH);
+		if(idx != -1) {
+			VH->VHNode[idx].elem = VH->VHNode[temp].elem;
 			VH->VHNode[idx].next = *S;
 			*S = idx;
-		} else {
-			Stack *trav;
-			for(trav = S; *trav != -1 && VH->VHNode[*trav].elem.data < data; trav = &(VH->VHNode[*trav].next)) {}
-			VH->VHNode[idx].next = *trav;
-			*trav = idx;
+
+			int tempTop = temp;
+			temp = VH->VHNode[temp].next;
+			freeSpace(VH, tempTop);
 		}
 	}
 }
@@ -111,6 +132,11 @@ void printStack(VHeap VH, Stack S) {
     //implement here.....
 	if(S != -1) {
 		printf("Sorted Stack: ");
-		for(; S != -1; S = VH.VHNode[S].next) printf("%d ", VH.VHNode[S].elem.data);
+		while(S != -1) {
+			printf("%d ", VH.VHNode[S].elem.data);
+			int temp = S;
+			S = VH.VHNode[S].next;
+			freeSpace(&VH, temp);
+		}
 	}
 }
