@@ -24,7 +24,7 @@ typedef struct {
 
 void initialize(Stack *S) {
 	S->elemPtr = -1;
-	S->Vheap = (VirtualHeap*)malloc(sizeof(VirtualHeap) * MAX);
+	S->Vheap = (VirtualHeap*)malloc(sizeof(VirtualHeap));
 	if(S->Vheap != NULL) {
 		S->Vheap->avail = 0;
 		int i;
@@ -54,7 +54,7 @@ void deallocSpace(Stack *S, int idx) {
 	}
 }
 
-void push(Stack *S, int x) {
+void push(Stack *S, char x) {
 	int idx = allocSpace(S);
 	if(idx != -1) {
 		S->Vheap->nodes[idx].elem = x;
@@ -72,7 +72,7 @@ void pop(Stack *S) {
 }
 
 char top(Stack S) {
-	return S.Vheap->nodes[S.elemPtr].elem;
+	return (empty(S)) ? '\0' : S.Vheap->nodes[S.elemPtr].elem;
 }
 
 void read(Stack S) {

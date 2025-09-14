@@ -21,7 +21,7 @@ bool full() {
 	return false;
 }
 
-void push(Stack *S, int x) {
+void push(Stack *S, char x) {
 	Stack newNode = (Stack)malloc(sizeof(struct node));
 	if(newNode != NULL) {
 		newNode->data = x;
@@ -39,7 +39,7 @@ void pop(Stack *S) {
 }
 
 char top(Stack S) {
-	return S->data;
+	return (empty(S)) ? '\0' : S->data;
 }
 
 void read(Stack S) {

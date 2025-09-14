@@ -21,7 +21,7 @@ bool full(Stack S) {
 	return (S.top == 0) ? true : false;
 }
 
-void push(Stack *S, int x) {
+void push(Stack *S, char x) {
 	if(!full(*S)) {
 		S->elem[--S->top] = x;
 	}
@@ -34,7 +34,7 @@ void pop(Stack *S) {
 }
 
 char top(Stack S) {
-	return S.elem[S.top];
+	return (empty(S)) ? '\0' : S.elem[S.top];
 }
 
 void read(Stack S) {
