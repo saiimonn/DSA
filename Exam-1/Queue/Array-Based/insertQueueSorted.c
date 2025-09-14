@@ -8,12 +8,11 @@ typedef struct {
 	int front;
 } Queue;
 
-int count = 0;
-
 void initialize(Queue *);
 void enqueueSorted(Queue *, int);
 void dequeue(Queue *);
 void read(Queue);
+int size(Queue);
 
 int main() {
 	Queue Q;
@@ -24,12 +23,16 @@ int main() {
 	enqueueSorted(&Q, 2);
 	enqueueSorted(&Q, 8);
 
-	read(Q);
+   read(Q);
 }
 
 void initialize(Queue *Q) {
 	Q->front = 0;
 	Q->rear = MAX - 1;
+}
+
+int size(Queue Q) {
+	return (Q.rear - Q.front + MAX + 1) % MAX;
 }
 
 bool isEmpty(Queue Q) {
@@ -44,13 +47,13 @@ void enqueue(Queue *Q, int x) {
 	if(!isFull(*Q)) {
 		Q->rear = (Q->rear + 1) % MAX;
 		Q->elems[Q->rear] = x;
-		count++;
 	}
 }
 
 void enqueueSorted(Queue *Q, int x) { 
 	if(!isFull(*Q)) {
-		int i, rotation = count;
+		int i;
+		int rotation = size(*Q);
 		int inserted = 0;
 
 		for(i = 0; i < rotation; i++) {
@@ -74,14 +77,13 @@ void enqueueSorted(Queue *Q, int x) {
 void dequeue(Queue *Q) {
 	if(!isEmpty(*Q)) {
 		Q->front = (Q->front + 1) % MAX;
-		count--;
 	}
 }
 
 void read(Queue Q) {
 	if(!isEmpty(Q)) {
 		int i;
-		int n = count;
+		int n = size(Q);
 		for(i = 0; i < n; i++) {
 			int temp = Q.elems[Q.front];
 			Q.front = (Q.front + 1) % MAX;
