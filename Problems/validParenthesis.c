@@ -11,8 +11,16 @@ void push(Stack *S, char x) {
 	S->elems[++S->top] = x;
 }
 
+bool isEmpty(Stack S) {
+	return (S.top == -1) ? true : false;
+}
+
 void pop(Stack *S) {
 	S->top--;
+}
+
+char top(Stack S) {
+	return S.elems[S.top];
 }
 
 bool isValid(char *s) {
@@ -24,17 +32,14 @@ bool isValid(char *s) {
 		if(s[i] == '(' || s[i] == '[' || s[i] == '{') {
 			push(&st, s[i]);
 		} else {
-			if( st.top == -1 
-			|| (s[i] == ')' && st.elems[st.top] != '(')
-			|| (s[i] == ']' && st.elems[st.top] != '[')
-     		|| (s[i] == '}' && st.elems[st.top] != '{')
-			) {
-				return false;
+			if(isEmpty(st)) return false;
+			if(s[i] == top(st) + 1 || s[i] == top(st) + 2) {
+				pop(&st);
 			}
-			pop(&st);
 		}
 	}
-	return st.top == -1;
+
+	return isEmpty(st);
 }
 
 int main() {
