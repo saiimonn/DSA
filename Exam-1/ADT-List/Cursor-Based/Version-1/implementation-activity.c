@@ -31,8 +31,8 @@ int allocSpace(VirtualHeap *VH) {
     int idx = VH->avail;
     if(idx != -1) {
         VH->avail = VH->nodes[idx].link;
-        return idx;
     }
+    return idx;
 }
 
 void insertFirst(VirtualHeap *VH, List *L, char x) {
@@ -52,9 +52,9 @@ void insertLast(VirtualHeap *VH, List *L, char x) {
         if(*L == -1) {
             *L = idx;
         } else {
-            List trav;
-            for(trav = L; VH->nodes[trav].link != -1; trav = VH->nodes[trav].link) {}
-            VH->nodes[trav].link = idx;
+            List *trav;
+            for(trav = L; VH->nodes[*trav].link != -1; trav = &(VH->nodes[*trav].link)) {}
+            VH->nodes[*trav].link = idx;
         }
     }
 }
@@ -110,10 +110,8 @@ int main() {
     List L;
     initList(&L);
 
-    insertSorted(&VH, &L, 'a');
-    insertSorted(&VH, &L, 'u');
-    insertSorted(&VH, &L, 'd');
-    insertSorted(&VH, &L, 'o');
-    insertSorted(&VH, &L, 'z');
+    insertLast(&VH, &L, 'c');
+    insertLast(&VH, &L, 'g');
+    insertLast(&VH, &L, 'D');
     read(VH, L);
 }
