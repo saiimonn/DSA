@@ -57,8 +57,8 @@ void enqueueSorted(Queue *Q, int x) {
 		int inserted = 0;
 
 		for(i = 0; i < rotation; i++) {
-			int temp = Q->elems[Q->front]; //removes the front elem, compares x to it, inserts x if x < temp. 
-			dequeue(Q);					   //will keep rotating until i == rotation, keeping the original array form.
+			int temp = Q->elems[Q->front]; 
+			dequeue(Q);					   
 
 			if(!inserted && x < temp) {
 				enqueue(Q, x);
