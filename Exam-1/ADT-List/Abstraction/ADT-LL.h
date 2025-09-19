@@ -21,6 +21,8 @@ bool isFull();
 void makeNull(List *);
 void read(List);
 
+void sort(List *);
+
 void initialize(List *L) {
 	*L = NULL;
 }
@@ -107,6 +109,20 @@ void read(List L) {
 	if(!isEmpty(L)) {
 		for(; L != NULL; L = L->link) printf("%d -> ", L->data);
 		printf("NULL\n");
+	}
+}
+
+void sort(List *L) {
+	if(!isEmpty(*L)) {
+		for(List i = *L; i->link != NULL; i = i->link) {
+			for(List j = i->link; j != NULL; j = j->link) {
+				if(j->data < i->data) {
+					int temp = i->data;
+					i->data = j->data;
+					j->data = temp;
+				}
+			}
+		}
 	}
 }
 
