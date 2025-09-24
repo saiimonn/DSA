@@ -2,24 +2,22 @@
 #include <stdlib.h>
 #define MAX 10
 
-typedef struct node {
-    int elem;
-    struct node *next;
-} LL, *List;
+typedef int Dictionary[MAX];
 
-typedef List Dictionary[MAX];
+typedef enum { EMPTY, DELETED } status;
 
 void initDict(Dictionary);
 int hash(int);
 void insert(Dictionary, int);
 
 int main() {
-
+    Dictionary D;
+    initDict(D);
 }
 
 void initDict(Dictionary D) {
     for(int i = 0; i < MAX; i++) {
-        D[i] = NULL;
+        D[i] = EMPTY;
     }
 }
 
@@ -30,5 +28,6 @@ int hash(int x) {
 void insert(Dictionary D, int x) {
     int idx = hash(x);
 
-    
+    for(; D[idx] != EMPTY; idx = (idx + 1) % MAX) {}
+    D[idx] = x;
 }

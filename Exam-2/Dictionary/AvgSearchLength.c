@@ -48,9 +48,7 @@ void initDict(Dictionary D) {
 int insert(Dictionary D, char elem, int hashVal) {
     int idx = hashVal;
 
-    while(D[idx] != EMPTY) {
-        idx = (idx + 1) % MAX;
-    }
+    for(; D[idx] != EMPTY; idx = (idx + 1) % MAX) {}
     D[idx] = elem;
     return idx;
 }
