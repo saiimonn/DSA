@@ -72,29 +72,32 @@ void read(SET S) {
 
 SET Union(SET A, SET B) {
 	SET C = NULL;
+	SET *cPtr = &C;
 
 	while(A != NULL && B != NULL) {
+		*cPtr = (SET)malloc(sizeof(struct node));
+		
 		if(A->elem < B->elem) {
-			insert(&C, A->elem);
+			(*cPtr)->elem = A->elem;
 			A = A->next;
-		} else if(B->elem < A->elem) {
-			insert(&C, B->elem);
-			B = B->next;
 		} else {
-			insert(&C, A->elem);
-			A = A->next;
+			if(A->elem == B->elem) {
+				A = A->next;
+			}
+			(*cPtr)->elem = B->elem;
 			B = B->next;
 		}
+		(*cPtr)->next = NULL;
+		cPtr = &(*cPtr)->next;
 	}
 
-	while(B != NULL) {
-		insert(&C, B->elem);
-		B = B->next;
-	}
-
-	while(A != NULL) {
-		insert(&C, A->elem);
-		A = A->next;
+	SET D = (A != NULL) ? A : B;
+	while(D != NULL) {
+		*cPtr = (SET)malloc(sizeof(struct node));
+		(*cPtr)->elem = D->elem;
+		(*cPtr)->next = NULL;
+		cPtr = &(*cPtr)->next;
+		D = D->next;
 	}
 
 	return C;
