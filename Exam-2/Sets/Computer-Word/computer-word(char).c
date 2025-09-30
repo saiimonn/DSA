@@ -4,36 +4,56 @@
 typedef char Set;
 
 void displayBit(Set);
-void insert(int, Set*);
-void removeB(int, Set*);
+void initSet(Set *);
+void displaySet(Set);
+void insert(int, Set *);
+void removeB(int, Set *);
 bool isMember(int, Set);
 
+Set Union(Set, Set);
+Set Intersection(Set, Set);
+Set Difference(Set, Set);
+
 int main() {
-    Set s = '\0';
+    Set s;
+    initSet(&s);
     displayBit(s); //0000 0000
 
     insert(0, &s);
     displayBit(s); //0000 0001
 
     insert(4, &s);
+    displaySet(s);
     displayBit(s); //0001 0001
 
     removeB(4, &s);
+    displaySet(s);
     displayBit(s); // 0000 0001
 
     printf("%s\n", isMember(0, s) ? "true" : "false"); //true
     printf("%s\n", isMember(4, s) ? "true" : "false"); //false
 }
 
+void initSet(Set *S) {
+    *S = '\0';
+}
+
 void displayBit(Set S) {
     int mask = sizeof(S) * 8 - 1;
 
-    while(mask >= 0) {
+    for(; mask >= 0; mask--) {
         if(mask == 3) printf(" ");
 
         printf("%d", S >> mask & 1);
+    }
+    printf("\n");
+}
 
-        mask--;
+void displaySet(Set S) {
+    int mask = sizeof(S) * 8 - 1;
+
+    for(; mask >= 0; mask--) {
+        if(S >> mask & 1) printf("%d ", mask);
     }
     printf("\n");
 }
@@ -48,4 +68,28 @@ void removeB(int off, Set *S) {
 
 bool isMember(int idx, Set S) {
     return S >> idx & 1;
+}
+
+Set Union(Set A, Set B) {
+    Set C;
+    initSet(&C);
+
+    C = A | B;
+    return C;
+}
+
+Set Intersection(Set A, Set B) {
+    Set C;
+    initSet(&C);
+
+    C = A & B;
+    return C;
+}
+
+Set Difference(Set A, Set B) {
+    Set C;
+    initSet(&C);
+
+    C = A & ~(B);
+    return C;
 }
