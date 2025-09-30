@@ -24,11 +24,13 @@ void delete(charList *L, char x) {
 
 void deleteAllOccurrences(charList *L, char x) {
     charList temp, *ptr;
-    for(ptr = L; ptr != NULL; ptr = &(*ptr)->link) {
+    for(ptr = L; ptr != NULL;) {
         if((*ptr)->elem == x) {
             temp = *ptr;
             *ptr = temp->link;
             free(temp);
+        } else {
+            ptr = &(*ptr)->link;
         }
     }
 }

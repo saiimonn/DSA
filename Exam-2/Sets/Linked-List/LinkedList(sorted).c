@@ -52,7 +52,7 @@ void populate(SET *S) {
 	}
 }
 
-void insert(SET *S, int x) {
+void insert(SET *S, int x) { //fix thi
 	SET *trav = S;
 	for(; *trav != NULL && (*trav)->elem != x; trav = &(*trav)->next) {}
 

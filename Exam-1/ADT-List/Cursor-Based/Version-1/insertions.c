@@ -31,8 +31,8 @@ int allocSpace(VirtualHeap *VH) {
     int idx = VH->avail;
     if(idx != -1) {
         VH->avail = VH->nodes[idx].link;
-        return idx;
     }
+    return idx;
 }
 
 void insertFirst(VirtualHeap *VH, List *L, char elem) {
@@ -49,15 +49,10 @@ void insertLast(VirtualHeap *VH, List *L, char elem) {
     if(idx != -1) {
         VH->nodes[idx].elem = elem;
         VH->nodes[idx].link = -1;
-        if(*L == -1) {
-            *L = idx; //makes newNode the new head (similar to newNode->link = *head; *head = newNode;)
-        } else {
-            //traversal to the last node
-            List trav;
-            for(trav = *L; VH->nodes[trav].link != -1; trav = VH->nodes[trav].link) {}
-            VH->nodes[trav].link = idx; //links the last node to the new node
+        List *trav;
+        for(trav = L; VH->nodes[*trav].link != -1; trav = &(VH->nodes[*trav].link)) {}
+        VH->nodes[*trav].link = idx; //links the last node to the new node
         }
-    }
 }
 
 void insertSorted(VirtualHeap *VH, List *L, char elem) {
@@ -88,13 +83,8 @@ int main() {
     List L;
     initializeList(&L);
 
-    insertFirst(&VH, &L, 'x');
-    insertFirst(&VH, &L, 'b');
+    insertLast(&VH, &L, 'c');
     insertLast(&VH, &L, 'y');
-
-    insertSorted(&VH, &L, 'h');
-    insertSorted(&VH, &L, 'a');
-    insertSorted(&VH, &L, 'z');
 
     read(VH, L);
 }

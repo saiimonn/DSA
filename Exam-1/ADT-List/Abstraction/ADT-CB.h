@@ -82,15 +82,12 @@ void insertLast(CursorList *CL, int x) {
 	if(idx != -1) {
 		CL->Vheap->nodes[idx].data = x;
 		CL->Vheap->nodes[idx].link = -1;
-		if(CL->head == -1) {
-			CL->head = idx;
-		} else {
-			 List *trav;
-			for(trav = &CL->head; *trav != -1; trav = &(CL->Vheap->nodes[*trav].link)) {}
+		List *trav;
+		for(trav = &CL->head; *trav != -1; trav = &(CL->Vheap->nodes[*trav].link)) {}
 
-			CL->Vheap->nodes[idx].link = *trav;
-			*trav = idx;
-		}
+		CL->Vheap->nodes[idx].link = *trav;
+		*trav = idx;
+		
 	}
 }
 

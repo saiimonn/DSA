@@ -84,11 +84,13 @@ void deleteElem(List *L, int x) {
 void deleteAllOccur(List *L, int x) {
 	if(!isEmpty(*L)) {
 		List *trav;
-		for(trav = L; *trav != NULL; trav = &(*trav)->link) {
+		for(trav = L; *trav != NULL;) {
 			if((*trav)->data == x) {
 				List temp = *trav;
 				*trav = temp->link;
 				free(temp);
+			} else {
+				trav = &(*trav)->link;
 			}
 		}
 	}
