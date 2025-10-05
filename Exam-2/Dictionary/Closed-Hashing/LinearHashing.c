@@ -1,16 +1,18 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+
 #define MAX 10
 
 typedef int Dictionary[MAX];
 
-typedef enum { EMPTY, DELETED } status;
+typedef enum { EMPTY = -1, DELETED = -2} status;
 
 void initDict(Dictionary);
 int hash(int);
 void insert(Dictionary, int);
 void delete(Dictionary, int);
-bool isMember(Dictionary, int);
+int isMember(Dictionary, int);
 void printDict(Dictionary);
 
 int main() {
@@ -34,6 +36,7 @@ int main() {
     printDict(D);
 
     insert(D, 42);
+    insert(D, -4);
     printDict(D);
 }
 
@@ -44,36 +47,49 @@ void initDict(Dictionary D) {
 }
 
 int hash(int x) {
-    return x % 10;
+    return abs(x % 10);
 }
 
 void insert(Dictionary D, int x) {
-    int idx = hash(x);
+    if(isMember(D, x) == -10) {
+        int idx = hash(x), deletedPos = -3;
+        int i;
+        for(i = 0; i < MAX && D[idx] != EMPTY; idx = (idx + 1) % MAX, i++) {
+            if(deletedPos == -3 && D[idx] == DELETED) {
+                deletedPos = idx;
+            }
+        }
 
-    for(; D[idx] != EMPTY && D[idx] != DELETED; idx = (idx + 1) % MAX) {}
-    D[idx] = x;
-}
-
-void delete(Dictionary D, int x) {
-    int idx = hash(x);
-
-    int stop = (idx + MAX - 1) % MAX;
-    int i;
-    for(i = idx; i != stop && D[i] != EMPTY && D[i] != x; i = (i + 1) % MAX) {}
-
-    if(D[i] == x) {
-        D[i] = DELETED;
+        if(i != MAX) {
+            D[idx] = x;
+        } else if(deletedPos != -3) {
+            D[deletedPos] = x;
+        }
     }
 }
 
-bool isMember(Dictionary D, int x) {
+void delete(Dictionary D, int x) {
+    int idx = isMember(D, x);
+    if(idx != -10) {
+        D[idx] = DELETED;
+    } else {
+        printf("Not there");
+    }
+}
+
+int isMember(Dictionary D, int x) {
     int idx = hash(x);
+    int start = hash(x);
 
-    int stop = (idx + MAX - 1) % MAX;
-    int i;
-    for(i = idx; i != stop && D[i] != EMPTY && D[i] != x; i = (i + 1) % MAX) {}
+    bool isFull = false;
+    while(!isFull && D[idx] != x && D[idx] != EMPTY) {
+        idx = (idx + 1) % MAX;
+        if(idx == start) {
+            isFull = true;
+        }
+    }
 
-    return (D[i] == x) ? true : false;
+    return (D[idx] == x) ? idx : -10;
 }
 
 void printDict(Dictionary D) {

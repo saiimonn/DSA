@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
 #define MAX 10
 
 typedef struct node {
@@ -14,6 +16,7 @@ int hash(int);
 void insert(Dictionary, int);
 void delete(Dictionary, int);
 void printDict(Dictionary);
+bool isMember(Dictionary, int);
 
 int main() {
     Dictionary D;
@@ -32,6 +35,9 @@ int main() {
     delete(D, 25);
 
     printDict(D);
+
+    printf("%d", isMember(D, 15));
+    printf("%d", isMember(D, 27));
 
     return 0;
 }
@@ -83,4 +89,13 @@ void printDict(Dictionary D) {
         printf("NULL\n");
     }
     printf("\n");
+}
+
+bool isMember(Dictionary D, int x) {
+    int idx = hash(x);
+
+    List trav;
+    for(trav = D[idx]; trav != NULL && trav->elem != x; trav = trav->next) {}
+
+    return trav != NULL;
 }
