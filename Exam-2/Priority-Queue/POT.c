@@ -29,8 +29,6 @@ int main() {
     insert(&T, 9);  //9
     insert(&T, 4);  //10
 
-    printf("%d\n", T.arr[T.lastIdx]);
-
     display(T);
 }
 
@@ -68,16 +66,18 @@ int deleteMin(Tree *T) {
 
         int child;
 
-        child = (T->arr[left] < T->arr[right]) ? left : right;
+        child = (right <= T->lastIdx && T->arr[left] < T->arr[right]) ? left : right;
         
         while(child <= T->lastIdx && T->arr[child] < data) {
+            int tempo = T->arr[parent];
             T->arr[parent] = T->arr[child];
+            T->arr[child] = tempo;
 
             parent = child;
             left = parent * 2 + 1;
             right = parent * 2 + 2;
 
-            child = (T->arr[left] < T->arr[right]) ? left : right;  
+            child = (right <= T->lastIdx && T->arr[left] < T->arr[right]) ? left : right;  
         }
 
         T->arr[parent] = data;

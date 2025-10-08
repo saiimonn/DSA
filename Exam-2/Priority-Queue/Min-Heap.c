@@ -61,15 +61,17 @@ int deleteMin(MinHeap *M) {
         int parent = 0;
         int left = parent * 2 + 1;
         int right = left + 1;
-        int child = (M->arr[left] < M->arr[right]) ? left : right;
+        int child = (right <= M->lastIdx && M->arr[left] < M->arr[right]) ? left : right;
 
         while(child <= M->lastIdx && M->arr[child] < data) {
+            int tempo = M->arr[parent];
             M->arr[parent] = M->arr[child];
+            M->arr[child] = tempo;
 
             parent = child;
             left = parent * 2 + 1;
             right = left + 1;
-            child = (M->arr[left] < M->arr[right]) ? left : right;
+            child = (right <= M->lastIdx && M->arr[left] < M->arr[right]) ? left : right;
         }
         M->arr[parent] = data;
     }

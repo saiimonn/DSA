@@ -64,16 +64,18 @@ int deleteMax(MaxHeap *M) {
         int left = parent * 2 + 1;
         int right = left + 1;
 
-        int child = (M->arr[right] > M->arr[left]) ? right : left;
+        int child = (right <= M->lastIdx  && M->arr[left] > M->arr[right]) ? left : right;
 
         while(child <= M->lastIdx && M->arr[child] > data) {
+            int tempo = M->arr[parent];
             M->arr[parent] = M->arr[child];
+            M->arr[child] = tempo;
 
             parent = child;
             left = parent * 2 + 1;
             right = left + 1;
 
-            child = (M->arr[right] > M->arr[left]) ? right : left;
+            child = (right <= M->lastIdx  && M->arr[left] > M->arr[right]) ? left : right;
         }
         M->arr[parent] = data;
     }
