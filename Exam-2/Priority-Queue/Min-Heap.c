@@ -10,6 +10,7 @@ void initTree(MinHeap *);
 void insert(MinHeap *, int);
 int deleteMin(MinHeap *);
 void display(MinHeap);
+void heapifySubtree(MinHeap *, int);
 
 int main() {
     MinHeap M;
@@ -76,6 +77,34 @@ int deleteMin(MinHeap *M) {
         M->arr[parent] = data;
     }
     return temp;
+}
+
+void heapifySubtree(MinHeap *M, int subroot) {
+    int smallest, left, right, done = 0;
+
+    while(!done) {
+        smallest = subroot;
+        left = subroot * 2 + 1;
+        right = left + 1;
+
+        if(right <= M->lastIdx && M->arr[left] < M->arr[smallest]) {
+            smallest = left;
+        }
+
+        if(right <= M->lastIdx && M->arr[right] < M->arr[smallest]) {
+            smallest = right;
+        }
+
+        if(smallest == subroot) {
+            done = 1;
+        } else {
+            int temp = M->arr[smallest];
+            M->arr[smallest] = M->arr[subroot];
+            M->arr[subroot] = temp;
+
+            subroot = smallest;
+        }
+    }
 }
 
 void display(MinHeap M) {
