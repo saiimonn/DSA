@@ -54,6 +54,16 @@ void insert(MaxHeap *M, int x) {
 }
 
 int deleteMax(MaxHeap *M) {
+
+    /*
+        data = elem at the last index, to be swapped with the element at the root (index 0)
+
+        1. shifts the root node (max elem) to its largest child (left or right)
+        2. while it's still in the bounds of the array and the child to be swapped is greater than data
+        3. after the loop, overwrite the element of the max elem (at position parent) with data
+        4. returns the element deleted (max elem). returns -1 if empty tree
+    */
+
     int temp = -1;
 
     if(M->lastIdx >= 0) {
