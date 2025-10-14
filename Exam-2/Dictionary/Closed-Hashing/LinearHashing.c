@@ -69,11 +69,11 @@ void insert(Dictionary D, int x) {
 }
 
 void delete(Dictionary D, int x) {
-    int idx = isMember(D, x);
-    if(idx != -10) {
+    int idx;
+    if((idx = isMember(D, x)) != -10) {
         D[idx] = DELETED;
     } else {
-        printf("Not there");
+        printf("Not exist\n");
     }
 }
 
