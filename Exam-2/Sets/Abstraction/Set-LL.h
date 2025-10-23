@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #ifndef SET_LL_H
 #define SET_LL_H
@@ -11,6 +12,15 @@ typedef struct node {
 
 void initSet(Set *S) {
     *S = NULL;
+}
+
+bool isMember(Set S, int x) {
+    if(S != NULL) {
+        for(; S != NULL && S->elem != x; S = S->link) {}
+
+        if(S != NULL) return true;
+    }
+    return false;
 }
 
 void insert(Set *S, int x) {
