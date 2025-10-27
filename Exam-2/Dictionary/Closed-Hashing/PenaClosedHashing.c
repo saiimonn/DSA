@@ -79,6 +79,7 @@ int hash(int val) {
     return abs(val) % MAXPRIME;
 }
 
+//This inserts at the start of the chain (worst case: O(1))
 void insert(Dictionary *D, int x) {
     int hashVal = hash(x), space = -9999;
     if(D->arr[hashVal].data == EMPTY) { 

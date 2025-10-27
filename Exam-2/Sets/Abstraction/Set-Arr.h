@@ -24,6 +24,15 @@ bool isMember(Set S, int x) {
     return false;
 }
 
+void insertSorted(Set *S, int x) {
+    if(S->count < MAX) {
+        int i;
+        for(i = S->count; i >= 0 && S->arr[i] > x; S->arr[i + 1] = S->arr[i], i--) {}
+        S->arr[i + 1] = x;
+        S->count++;
+    }
+}
+
 void insert(Set *S, int x) {
     if(S->count < MAX) {
         int i;

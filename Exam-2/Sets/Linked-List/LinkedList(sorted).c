@@ -14,7 +14,6 @@ typedef struct node {
 	struct node *next;
 } *SET;
 
-void populate(SET *);
 void read(SET);
 void insert(SET *, int);
 SET Union(SET, SET);
@@ -25,31 +24,41 @@ int main() {
 	SET A = NULL;
 	SET B = NULL;
 
-	populate(&A);
-	populate(&B);
+	// ---------- TEST CASES ----------
+	// A = {1, 3, 5, 7, 9}
+	insert(&A, 1);
+	insert(&A, 3);
+	insert(&A, 5);
+	insert(&A, 7);
+	insert(&A, 9);
 
-	SET U = Union(A, B); //Elements in A and B
+	// B = {3, 4, 7, 10}
+	insert(&B, 3);
+	insert(&B, 4);
+	insert(&B, 7);
+	insert(&B, 10);
+
+	printf("Set A: ");
+	read(A);
+	printf("Set B: ");
+	read(B);
+
+	// ---------- UNION ----------
+	SET U = Union(A, B);
+	printf("\nUnion (A ∪ B): ");
 	read(U);
 
-	SET I = Intersection(A, B); //Elements in A that are in B
+	// ---------- INTERSECTION ----------
+	SET I = Intersection(A, B);
+	printf("Intersection (A ∩ B): ");
 	read(I);
 
-	SET D = Difference(A, B); //Elements in A that are not in B
+	// ---------- DIFFERENCE ----------
+	SET D = Difference(A, B);
+	printf("Difference (A - B): ");
 	read(D);
-}
 
-void populate(SET *S) {
-	int size;
-	printf("Enter number of elements: ");
-	scanf("%d", &size);
-
-	for(int i = 0; i < size; i++) {
-		int inp;
-		printf("Enter element: ");
-		scanf("%d", &inp);
-
-		insert(S, inp);
-	}
+	return 0;
 }
 
 void insert(SET *S, int x) { //fix thi
@@ -105,31 +114,55 @@ SET Union(SET A, SET B) {
 
 SET Intersection(SET A, SET B) {
 	SET C = NULL;
+	SET *cPtr = &C;
 
-	SET Atrav;
-	for(Atrav = A; Atrav != NULL; Atrav = Atrav->next) {
-		SET Btrav;
-		for(Btrav = B; Btrav != NULL && Btrav->elem != Atrav->elem; Btrav = Btrav->next) {}
+	while(A != NULL && B != NULL) {
+		if(A->elem == B->elem) {
+			*cPtr = (SET)malloc(sizeof(struct node));
+			if(cPtr != NULL) {
+				(*cPtr)->elem = A->elem;
+				(*cPtr)->next = NULL;
+				cPtr = &(*cPtr)->next;
 
-		if(Btrav != NULL) {
-			insert(&C, Btrav->elem);
+				A = A->next;
+				B = B->next;
+			}
+		} else if (A->elem < B->elem) {
+			A = A->next;
+		} else {
+			B = B->next;
 		}
 	}
-
 	return C;
 }
 
 SET Difference(SET A, SET B) {
 	SET C = NULL;
+	SET *cPtr = &C;
 
-	SET Atrav;
-	for(Atrav = A; Atrav != NULL; Atrav = Atrav->next) {
-		SET Btrav;
-		for(Btrav = B; Btrav != NULL && Btrav->elem != Atrav->elem; Btrav = Btrav->next) {}
+	while(A != NULL && B != NULL) {
+		if(A->elem < B->elem) {
+			*cPtr = (SET)malloc(sizeof(struct node));
+			(*cPtr)->elem = A->elem;
+			(*cPtr)->next = NULL;
+			cPtr = &(*cPtr)->next;
 
-		if(Btrav == NULL) {
-			insert(&C, Atrav->elem);	
+			A = A->next;
+		} else if(A->elem == B->elem) {
+			A = A->next;
+			B = B->next;
+		} else {
+			B = B->next;
 		}
 	}
+
+	while(A != NULL) {
+		*cPtr = (SET)malloc(sizeof(struct node));
+		(*cPtr)->elem = A->elem;
+		(*cPtr)->next = NULL;
+		cPtr = &(*cPtr)->next;
+		A = A->next;
+	}
+
 	return C;
 }
