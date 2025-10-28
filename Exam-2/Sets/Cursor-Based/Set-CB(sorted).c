@@ -30,7 +30,52 @@ Set Intersection(Set, Set);
 Set Difference(Set, Set);
 
 int main() {
+    Set A, B;
+    initSet(&A);
+    initSet(&B);
 
+    // Insert elements into Set A
+    insert(&A, 1);
+    insert(&A, 3);
+    insert(&A, 5);
+    insert(&A, 7);
+    insert(&A, 9);
+
+    // Insert elements into Set B
+    insert(&B, 2);
+    insert(&B, 3);
+    insert(&B, 4);
+    insert(&B, 7);
+    insert(&B, 10);
+
+    printf("Set A: ");
+    read(A);
+
+    printf("Set B: ");
+    read(B);
+
+    // Test deleteBit
+    printf("\nDeleting 5 from Set A...\n");
+    deleteBit(&A, 5);
+    printf("Set A after deletion: ");
+    read(A);
+
+    // Test Union
+    Set U = Union(A, B);
+    printf("\nUnion of A and B: ");
+    read(U);
+
+    // Test Intersection
+    Set I = Intersection(A, B);
+    printf("Intersection of A and B: ");
+    read(I);
+
+    // Test Difference (A - B)
+    Set D = Difference(A, B);
+    printf("Difference of A - B: ");
+    read(D);
+
+    return 0;
 }
 
 void initSet(Set *S) {
@@ -94,14 +139,38 @@ void deleteBit(Set *S, int x) {
 }
 
 Set Union(Set A, Set B) {
-    Set C = A;
+    Set C;
+    initSet(&C);
     
-    List trav;
-    for(trav = B.head; trav != -1; trav = B.nodes[trav].link) {
-        if(!isMember(C, B.nodes[trav].data)) {
-            insert(&C, B.nodes[trav].data);
+    int i = A.head, j = B.head, cCount = 0;
+    while(i != -1 && j != -1) {
+        if(A.nodes[i].data < B.nodes[j].data) {
+            C.nodes[cCount++].data = A.nodes[i].data;
+            i = A.nodes[i].link;
+        } else if(B.nodes[j].data < A.nodes[i].data) {
+            C.nodes[cCount++].data = B.nodes[j].data;
+            j = B.nodes[j].link;
+        } else {
+            C.nodes[cCount++].data = A.nodes[i].data;
+            i = A.nodes[i].link;
+            j = B.nodes[j].link;
         }
     }
+
+    Set D = (i == -1) ? B : A;
+    int l = (i == -1) ? j : i;
+
+    while(l != -1) {
+        C.nodes[cCount++].data = D.nodes[l].data;
+        l = D.nodes[l].link;
+    }
+
+    //links the nodes in set C
+    for(int k = 0; k < cCount - 1; k++) {
+        C.nodes[k].link = k + 1;
+    }
+    C.nodes[cCount - 1].link = -1;
+    C.head = 0;
     return C;
 }
 
@@ -109,12 +178,24 @@ Set Intersection(Set A, Set B) {
     Set C;
     initSet(&C);
 
-    List trav;
-    for(trav = B.head; trav != -1; trav = B.nodes[trav].link) {
-        if(isMember(A, B.nodes[trav].data)) {
-            insert(&C, B.nodes[trav].data);
+    int i = A.head, j = B.head, cCount = 0;
+    while(i != -1 && j != -1) {
+        if(A.nodes[i].data < B.nodes[j].data) {
+            i = A.nodes[i].link;
+        } else if(B.nodes[j].data < A.nodes[i].data) {
+            j = B.nodes[j].link;
+        } else {
+            C.nodes[cCount++].data = A.nodes[i].data;
+            i = A.nodes[i].link;
+            j = B.nodes[j].link;
         }
     }
+
+    for(int k = 0; k < cCount - 1; k++) {
+        C.nodes[k].link = k + 1;
+    }
+    C.nodes[cCount - 1].link = -1;
+    C.head = 0;
     return C;
 }
 
@@ -122,12 +203,33 @@ Set Difference(Set A, Set B) {
     Set C;
     initSet(&C);
 
-    List trav;
-    for(trav = B.head; trav != -1; trav = B.nodes[trav].link) {
-        if(!isMember(A, B.nodes[trav].data)) {
-            insert(&C, B.nodes[trav].data);
+    int i = A.head, j = B.head, cCount = 0;
+    while(i != -1 && j != -1) {
+        if(A.nodes[i].data < B.nodes[j].data) {
+            C.nodes[cCount++].data = A.nodes[i].data;
+            i = A.nodes[i].link;
+        } else if(B.nodes[j].data < A.nodes[i].data) {
+            C.nodes[cCount++].data = B.nodes[j].data;
+            j = B.nodes[j].link;
+        } else {
+            i = A.nodes[i].link;
+            j = B.nodes[j].link;
         }
     }
+
+    Set D = (i == -1) ? B : A;
+    int l = (i == -1) ? j : i;
+
+    while(l != -1) {
+        C.nodes[cCount++].data = D.nodes[l].data;
+        l = D.nodes[l].link;
+    }
+
+    for(int k = 0; k < cCount - 1; k++) {
+        C.nodes[k].link = k + 1;
+    }
+    C.nodes[cCount - 1].link = -1;
+    C.head = 0;
     return C;
 }
 

@@ -87,14 +87,36 @@ void delete(Set *S, int x) {
 }
 
 Set Union(Set A, Set B) {
-    Set C = A;
+    Set C;
+    initSet(&C);
 
-    int i;
-    for(i = 0; i < B.count; i++) {
-        if(!isMember(C, B.arr[i])) {
-            C.arr[C.count++] = B.arr[i];
+    int i = 0, j = 0;
+
+    while(i < A.count && j < B.count) {
+        if(A.arr[i] < B.arr[j]) {
+            C.arr[C.count++] = A.arr[i++];
+        } else if(B.arr[j] < A.arr[i]) {
+            C.arr[C.count++] = B.arr[j++];
+        } else {
+            C.arr[C.count++] = A.arr[i];
+            i++;
+            j++;
         }
     }
+
+    Set D = (i == A.count) ? B : A;
+    int l = (i == A.count) ? j : i;
+
+    while(l < D.count) {
+        C.arr[C.count++] = D.arr[l++];
+    }
+
+    // int i;
+    // for(i = 0; i < B.count; i++) {
+    //     if(!isMember(C, B.arr[i])) {
+    //         C.arr[C.count++] = B.arr[i];
+    //     }
+    // }
     return C;
 }
 
@@ -102,12 +124,24 @@ Set Intersection(Set A, Set B) {
     Set C;
     initSet(&C);
 
-    int i;
-    for(i = 0; i < A.count; i++) {
-        if(isMember(B, A.arr[i])) {
-            C.arr[C.count++] = A.arr[i];
+    int i = 0, j = 0;
+    while(i < A.count && j < B.count) {
+        if(A.arr[i] < B.arr[j]) {
+            i++;
+        } else if(B.arr[j] < A.arr[i]) {
+            j++;
+        } else {
+            C.arr[C.count++] = A.arr[i++];
+            j++;
         }
     }
+
+    // int i;
+    // for(i = 0; i < A.count; i++) {
+    //     if(isMember(B, A.arr[i])) {
+    //         C.arr[C.count++] = A.arr[i];
+    //     }
+    // }
     return C;
 }
 
@@ -115,12 +149,32 @@ Set Difference(Set A, Set B) {
     Set C;
     initSet(&C);
 
-    int i;
-    for(i = 0; i < A.count; i++) {
-        if(!isMember(B, A.arr[i])) {
-            C.arr[C.count++] = A.arr[i];
+    int i = 0, j = 0;
+
+    while(i < A.count && j < B.count) {
+        if(A.arr[i] < B.arr[j]) {
+            C.arr[C.count++] = A.arr[i++];
+        } else if(B.arr[j] < A.arr[i]) {
+            C.arr[C.count++] = B.arr[j++];
+        } else {
+            i++;
+            j++;
         }
     }
+
+    Set D = (i == A.count) ? B : A;
+    int l = (i == A.count) ? j : i;
+
+    while(l < D.count) {
+        C.arr[C.count++] = D.arr[l++];
+    }
+
+    // int i;
+    // for(i = 0; i < A.count; i++) {
+    //     if(!isMember(B, A.arr[i])) {
+    //         C.arr[C.count++] = A.arr[i];
+    //     }
+    // }
     return C;
 }
 
