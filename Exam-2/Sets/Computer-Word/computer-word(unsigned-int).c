@@ -1,7 +1,8 @@
 #include <stdio.h>
 #define MAX (sizeof(unsigned int) * 8 - 1)
 
-typedef unsigned int Set;
+//4 bytes, 32 bits
+typedef unsigned int Set; // 0 to 4,294,967,295
 typedef enum {TRUE, FALSE} boolean;
 
 void initSet(Set *);
