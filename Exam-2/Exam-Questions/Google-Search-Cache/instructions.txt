@@ -1,0 +1,43 @@
+OMG. Google is secretly low on budget! That's why they decided to replace their expensive caching system with a cheap alternative, and they are turning to students like you to create their new caching system. Can you do it? Of course you can, thanks to the incredible things you learned in school!
+
+ 
+
+Use an OPEN HASHING DICTIONARY to store search query strings. Each search query string is associated with an array of search results. Using the caching system, search results will now be able to be served much faster to users, rather than having to query the database every time a query is made!
+
+ 
+
+2 core operations:
+
+    Lookup - "Check if this key exists"
+    Insertion - "Store this new key/value"
+
+ 
+Function specifications
+
+void init_cache(HashTable *table)
+
+    Initializes the hash table, setting all buckets to NULL
+
+ 
+
+char **lookup_cache(HashTable *table, const char *key)
+
+    Looks up a key in the cache
+    Returns a pointer to the internal result array (size 3) if found (CACHE HIT), otherwise NULL
+
+ 
+
+bool insert_cache(HashTable *table, const char *key)
+
+    Attempts to insert a new key/value pair into the cache
+    If the key already exists, the insertion is skipped
+    If the key is new, it calls simulate_database_fetch() to get the results
+    Returns true on successful insertion or if key already exists (skipped), false on failure
+
+ 
+
+char **simulate_database_fetch(const char *key)
+
+    Simulates an expensive database query to get results
+    Returns a dynamically allocated array of result strings, or NULL
+    This function is GIVEN - all you need to do is CALL it
