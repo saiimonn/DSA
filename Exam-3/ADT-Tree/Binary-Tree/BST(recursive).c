@@ -78,9 +78,7 @@ void delete(Set *S, int x) {
 
             target->elem = (*B)->elem;
 
-            Set temp = *B;
-            *B = (temp->RC != NULL) ? temp->RC : NULL;
-            free(temp);
+            delete(B, (*B)->elem);
         }
     }
 }
