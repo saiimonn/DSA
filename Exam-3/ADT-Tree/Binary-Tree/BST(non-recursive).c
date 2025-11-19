@@ -53,35 +53,37 @@ void insert(Set *S, int x) {
 }
 
 void delete(Set *S, int x) {
-    Set *A = S;
-    while (*A != NULL && (*A)->elem != x) {
+    /*
+        Test Cases:
+            1.) Has no children - free the target node directly
+            2.) Has only left child - assign *A to the left child and free the target node
+            3.) Has only right child - assign *A to the right child and free the target node
+            4.) Has both children - find the successor node, swap its elem with the target node elem, and free the successor node
+    */
+
+    Set *A;
+
+    for(A = S; *A != NULL && (*A)->elem != x;) { //traversal
         A = (x > (*A)->elem) ? &(*A)->RC : &(*A)->LC;
     }
 
-    if (*A != NULL) {
+    if(*A != NULL) {
         Set target = *A;
 
-        if(!target->LC && !target->RC) { //test case: no children
-            free(target);
-            *A = NULL;
-        } else if (!target->LC) { //test case: only right child
-            *A = target->RC;
-            free(target);
-        } else if(!target->RC) { //test case: only left child
-            *A = target->LC;
-            free(target);
-        } else { //test case: has two children
-            Set *B = &target->RC;
-            while((*B)->LC != NULL) {
-                B = &(*B)->LC;
+        if(target->RC != NULL && target->LC != NULL) { 
+            Set *trav = &target->RC;
+            while((*trav)->LC != NULL) {
+                trav = &(*trav)->LC;
             }
-
-            target->elem = (*B)->elem;
-
-            Set temp = *B;
-            *B = (temp->RC != NULL) ? temp->RC : NULL;
-            free(temp);
+            
+            target->elem = (*trav)->elem;
+            
+            target = *trav;
+            *trav = target->RC;  
+        } else { 
+            *A = (target->LC != NULL) ? target->LC : target->RC;
         }
+        free(target);
     }
 }
 

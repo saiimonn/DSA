@@ -29,6 +29,8 @@ int main() {
     conception(&S, 3);
     conception(&S, 7);
 
+    abortion(&S, 20);
+
     inorder(S);
     
     return 0;
@@ -47,35 +49,27 @@ void conception(Set *S, int x) {
 }
 
 void abortion(Set *S, int x) {
-    Set *A = S;
-    while (*A != NULL && (*A)->elem != x) {
+    Set *A;
+
+    for(A = S; *A != NULL && (*A)->elem != x;) {
         A = (x > (*A)->elem) ? &(*A)->RC : &(*A)->LC;
     }
 
     if (*A != NULL) {
         Set target = *A;
 
-        if(!target->LC && !target->RC) { //test case: no children
-            free(target);
-            *A = NULL;
-        } else if (!target->LC) { //test case: only right child
-            *A = target->RC;
-            free(target);
-        } else if(!target->RC) { //test case: only left child
-            *A = target->LC;
-            free(target);
-        } else { //test case: has two children
-            Set *B = &target->RC;
-            while((*B)->LC != NULL) {
-                B = &(*B)->LC;
-            }
+        if(target->RC != NULL && target->LC != NULL) {
+            Set *trav;
+            for(trav = &target->RC; *trav != NULL && (*trav)->LC != NULL; trav = &(*trav)->LC) {}
 
-            target->elem = (*B)->elem;
+            target->elem = (*trav)->elem;
 
-            Set temp = *B;
-            *B = (temp->RC != NULL) ? temp->RC : NULL;
-            free(temp);
+            target = *trav;
+            *trav = target->RC;
+        } else {
+            *A = (target->LC == NULL) ? target->RC : target->LC;
         }
+        free(target);
     }
 }
 
