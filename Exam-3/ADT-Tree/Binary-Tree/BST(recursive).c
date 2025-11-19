@@ -23,6 +23,8 @@ int main() {
     insert(&S, 15);
     
     displayAscending(S);
+    printf("\nmin: %d\n", min(S));
+    printf("max: %d\n", max(S));
 
     delete(&S, 10);
 
@@ -41,7 +43,7 @@ void insert(Set *S, int x) {
         (*A)->RC = NULL;
     } else if(x > (*A)->elem) {
         insert(&(*A)->RC, x);
-    } else {
+    } else if(x < (*A)->elem) { //didn't use else cuz no duplicates
         insert(&(*A)->LC, x);
     }
 }
@@ -49,37 +51,34 @@ void insert(Set *S, int x) {
 void delete(Set *S, int x) {
     Set *A = S;
 
-    if(*A == NULL) {
-        return;
-    }else if(x > (*A)->elem) {
-        delete(&(*A)->RC, x);
-    } else {
-        delete(&(*A)->LC, x);
-    }
+    if(*A == NULL) return;
 
-    if((*A)->elem == x) {
+    if(x > (*A)->elem) {
+        delete(&(*A)->RC, x);
+    } else if(x < (*A)->elem) {
+        delete(&(*A)->LC, x);
+    } else {
         Set target = *A;
 
         if(!target->LC && !target->RC) {
             free(target);
             *A = NULL;
-        } else if(!target->LC) {
-            *A = target->RC;
-            free(target);
         } else if(!target->RC) {
             *A = target->LC;
             free(target);
+        } else if(!target->LC) {
+            *A = target->RC;
+            free(target);
         } else {
             Set *B = &target->RC;
+
             while((*B)->LC != NULL) {
                 B = &(*B)->LC;
             }
 
             target->elem = (*B)->elem;
 
-            Set temp = *B;
-            *B = (temp->RC != NULL) ? temp->RC : NULL;
-            free(temp);
+            delete(B, (*B)->elem);
         }
     }
 }
