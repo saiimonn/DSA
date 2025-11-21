@@ -28,6 +28,8 @@ int main() {
     insert(&S, 3);
     insert(&S, 7);
 
+    delete(&S, 20);
+
     printf("Preorder: ");
     preorder(S);
 
