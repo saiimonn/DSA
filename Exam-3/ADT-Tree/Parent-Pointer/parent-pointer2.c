@@ -16,6 +16,7 @@ typedef int Tree[MAX];
 
 void initialize(Tree);
 void insert(Tree, int, int);
+void makenull(Tree);
 int leftchild(Tree, int);
 int rightsibling(Tree, int);
 int parent(Tree, int);
@@ -91,6 +92,13 @@ void initialize(Tree T) {
 void insert(Tree T, int nodeIdx, int parentIdx) {
     if(nodeIdx < MAX && nodeIdx >= 0 && T[parentIdx] != EMPTY) {
         T[nodeIdx] = parentIdx;
+    }
+}
+
+void makenull(Tree T) {
+    int i;
+    for(i = 0; i < MAX; i++) {
+        T[i] = EMPTY;
     }
 }
 

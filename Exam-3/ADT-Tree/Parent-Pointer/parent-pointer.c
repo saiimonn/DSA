@@ -22,6 +22,7 @@ typedef Node Tree[MAX];
 
 void initialize(Tree);
 void insert(Tree, int, int, int);
+void makenull(Tree);
 int leftchild(Tree, int);
 int rightsibling(Tree, int);
 int parent(Tree, int);
@@ -88,6 +89,14 @@ void initialize(Tree T) {
 void insert(Tree T, int data, int nodeIdx, int parentIdx) {
     T[nodeIdx].data = data;
     T[nodeIdx].parent = parentIdx;
+}
+
+void makenull(Tree T) {
+    int i;
+    for(i = 0; i < MAX; i++) {
+        T[i].data = EMPTY;
+        T[i].parent = EMPTY;
+    }
 }
 
 int leftchild(Tree T, int idx) {
