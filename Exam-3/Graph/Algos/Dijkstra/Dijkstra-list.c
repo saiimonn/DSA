@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 5
+#define INF 9999
 
 typedef struct node{
     int label;
@@ -9,6 +10,7 @@ typedef struct node{
 } *VERTEX;
 
 typedef VERTEX Matrix[MAX];
+typedef int Set[MAX];
 
 int *dijkstra(Matrix, int);
 void displayShortestPath(int[], int);
@@ -35,6 +37,11 @@ int main(){
         insert(M, edges[i]);
     }
     displayList(M);
+
+    printf("\n");
+    int root = 0;
+    int *dj = dijkstra(M, root);
+    displayShortestPath(dj, root);
 }
 
 void initialize(Matrix M) {
@@ -52,15 +59,6 @@ void insert(Matrix M, int edge[3]) {
         temp->link = M[edge[0]];
         M[edge[0]] = temp;
     }
-
-    temp = (VERTEX)malloc(sizeof(struct node));
-
-    if(temp != NULL) {
-        temp->label = edge[0];
-        temp->weight = edge[2];
-        temp->link = M[edge[1]];
-        M[edge[1]] = temp;
-    }
 }
 
 void displayList(Matrix M) {
@@ -70,5 +68,64 @@ void displayList(Matrix M) {
             printf("[label: %d weight: %d] ", trav->label, trav->weight);
         }
         printf("\n");
+    }
+}
+
+int *dijkstra(Matrix M, int root) {
+    int *shortestPath = (int*)malloc(sizeof(int) * MAX);
+
+    if(shortestPath != NULL) {
+        Set visited = {0};
+        visited[root] = 1;
+
+        for(int i = 0; i < MAX; i++) {
+            shortestPath[i] = INF;
+        }
+
+        for(VERTEX trav = M[root]; trav != NULL; trav = trav->link) {
+            shortestPath[trav->label] = trav->weight;
+        }
+        shortestPath[root] = 0;
+
+        for(int i = 1; i < MAX; i++) {
+            int min = INF;
+            int minNode;
+
+            for(int j = 0; j < MAX; j++) {
+                //if not visited and its value is less than min
+                if(visited[j] == 0 && shortestPath[j] < min) {
+                    min = shortestPath[j];
+                    minNode = j;
+                }
+            }
+
+            if(min != INF) { //if there is a minimum
+                visited[minNode] = 1;
+
+                for(int j = 0; j < MAX; j++) {
+                    if(visited[j] == 0) {
+                        VERTEX trav;
+
+                        for(trav = M[minNode]; trav != NULL && trav->label != j; trav = trav->link) {}
+
+                        if(trav != NULL) {
+                            shortestPath[j] = (trav->weight + min < shortestPath[j]) ? trav->weight + min : shortestPath[j];
+                        }
+                    }
+                }
+            } else {
+                printf("Graph not connected\n");
+            }
+        }
+    }
+    return shortestPath;
+}
+
+void displayShortestPath(int arr[], int root) {
+    printf("\nDijkstra's Paths from %d:\n", root);
+    for(int i = 0; i < MAX; i++) {
+        
+        printf("Path from %d to %d: ", root, i);
+        (arr[i] == 0) ? printf("NONE\n") : printf("%d\n", arr[i]);
     }
 }
