@@ -106,7 +106,7 @@ int *dijkstra(Matrix M, int root) {
                     if(visited[j] == 0) {
                         VERTEX trav;
 
-                        for(trav = M[minNode]; trav != NULL && trav->label != j; trav = trav->link) {}
+                        for(trav = M[minNode]; trav != NULL && trav->label != j; trav = trav->link) {} //finds the node with the same label as j to get the weight
 
                         if(trav != NULL) {
                             shortestPath[j] = (trav->weight + min < shortestPath[j]) ? trav->weight + min : shortestPath[j];
