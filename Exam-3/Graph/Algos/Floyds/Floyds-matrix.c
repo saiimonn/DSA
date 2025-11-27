@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAX 5
 #define INF 9999
 
@@ -46,9 +47,7 @@ int **floyds(Matrix M) {
     int i, j, k;
     for(i = 0; i < MAX; i++) {
         floyds[i] = (int*)malloc(sizeof(int) * MAX);
-        for(j = 0; j < MAX; j++) {
-            floyds[i][j] = (i == j) ? 0 : M[i][j];
-        }
+        memcpy(floyds[i], M[i], sizeof(int) * MAX);
     }
 
     for(k = 0; k < MAX; k++) {
