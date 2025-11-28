@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <stdbool.h>
 #define MAX 5
 #define INF 9999
 
 typedef struct node {
     int label;
-    int weight;
     struct node *link;
 } *VERTEX;
 
@@ -18,19 +17,18 @@ void insert(List, int[]);
 void displayList(List);
 
 int main() {
-    int edges[][3] = {
-        {0, 1, 2},  // Edge from 0 to 1 with weight 2
-        {0, 2, 4},  // Edge from 0 to 2 with weight 4
-        {1, 2, 1},  // Edge from 1 to 2 with weight 1
-        {1, 3, 7},  // Edge from 1 to 3 with weight 7
-        {2, 4, 3},  // Edge from 2 to 4 with weight 3
-        {4, 3, 2}   // Edge from 4 to 3 with weight 2
+    int edges[][2] = {
+        {0, 1},
+        {0, 2},  
+        {1, 2},  
+        {1, 3},  
+        {2, 4},  
+        {4, 3}   
     };
     int size = sizeof(edges) / sizeof(edges[0]);
 
     List L;
     initialize(L);
-
     for(int i = 0; i < size; i++) {
         insert(L, edges[i]);
     }
@@ -45,23 +43,21 @@ void initialize(List L) {
     }
 }
 
-void insert(List L, int edge[3]) {
+void insert(List L, int edge[2]) {
     VERTEX newnode = (VERTEX)malloc(sizeof(struct node));
 
-    if(newnode != NULL){
-        newnode->weight = edge[2];
-        newnode->label = edge[0];
-        newnode->link = L[edge[1]];
-        L[edge[1]] = newnode;
+    if(newnode != NULL) {
+        newnode->label = edge[1];
+        newnode->link = L[edge[0]];
+        L[edge[0]] = newnode;
     }
 
     newnode = (VERTEX)malloc(sizeof(struct node));
 
     if(newnode != NULL) {
-        newnode->weight = edge[2];
-        newnode->label = edge[1];
-        newnode->link = L[edge[0]];
-        L[edge[0]] = newnode;
+        newnode->label = edge[0];
+        newnode->link = L[edge[1]];
+        L[edge[1]] = newnode;
     }
 }
 
@@ -69,7 +65,7 @@ void displayList(List L) {
     for(int i = 0; i < MAX; i++) {
         printf("Node %d: ", i);
         for(VERTEX trav = L[i]; trav != NULL; trav = trav->link) {
-            printf("[label: %d weight: %d] -> ", trav->label, trav->weight);
+            printf("[%d] -> ", trav->label);
         }
         printf("NULL\n");
     }
@@ -78,7 +74,7 @@ void displayList(List L) {
 void Floyds(List L) {
     int matrix[MAX][MAX];
 
-    int i, k, j;
+    int i, j, k;
     for(i = 0; i < MAX; i++) {
         for(j = 0; j < MAX; j++) {
             matrix[i][j] = (i == j) ? 0 : INF;
@@ -87,21 +83,22 @@ void Floyds(List L) {
 
     for(i = 0; i < MAX; i++) {
         for(VERTEX trav = L[i]; trav != NULL; trav = trav->link) {
-            matrix[i][trav->label] = trav->weight;
+            matrix[i][trav->label] = 1;
         }
     }
 
     for(k = 0; k < MAX; k++) {
         for(i = 0; i < MAX; i++) {
             for(j = 0; j < MAX; j++) {
-                int wgt = matrix[i][k] + matrix[k][j];
-                matrix[i][j] = (wgt < matrix[i][j]) ? wgt : matrix[i][j];
+                if(i != j) {
+                    matrix[i][j] = matrix[i][j] || (matrix[i][k] && matrix[k][j]);
+                }
             }
         }
     }
 
-    printf("\nFloyd-Warshall Shortest Path Matrix:\n");
-    for(i = 0;i < MAX; i++) {
+    printf("\nFloyd-Warshall shi:\n");
+    for(i = 0; i < MAX; i++) {
         for(j = 0; j < MAX; j++) {
             if(matrix[i][j] == INF) printf("INF ");
             else printf("%3d ", matrix[i][j]);

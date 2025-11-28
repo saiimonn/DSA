@@ -50,6 +50,10 @@ int **floyds(Matrix M) {
         memcpy(floyds[i], M[i], sizeof(int) * MAX);
     }
 
+    for(i = 0; i < MAX; i++) {
+        floyds[i][i] = 0;
+    }
+
     for(k = 0; k < MAX; k++) {
         for(i = 0; i < MAX; i++) {
             for(j = 0; j < MAX; j++) {

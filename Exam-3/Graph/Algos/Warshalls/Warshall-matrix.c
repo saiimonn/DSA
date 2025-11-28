@@ -58,15 +58,20 @@ int** warshall(Matrix C) {
         }
     }
 
+    for(i = 0; i < MAX; i++) {
+        warshall[i][i] = 0;
+    }
+
     for(k = 0; k < MAX; k++) {
         for(i = 0; i < MAX; i++) {
             for(j = 0; j < MAX; j++) {
                 /* 
                     if there's a path from i to k & a path from k to j, 
                     then there is a path from i to j
-                */
-                if(warshall[i][j] == 0) {
-                    warshall[i][j] = warshall[i][k] && warshall[k][j];
+                */ 
+                //if k == i and k == j, therefore i == j
+                if(i != j) {
+                    warshall[i][j] = warshall[i][j] || (warshall[i][k] && warshall[k][j]);
                 }
             }
         }
