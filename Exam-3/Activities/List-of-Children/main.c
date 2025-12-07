@@ -98,6 +98,22 @@ Node parent(Node n, const Tree *T) {
  */
 Node left(const Tree *T) {
     // TODO
+    bool exist = false;
+    int retVal = INVALID_NODE;
+    for(int i = 0; i < MAX_NODES; i++) {
+        if(T->children[i] == NULL && i != T->rootIndex) {
+            for(int j = 0; j < MAX_NODES && !exist; j++) {
+                ChildNode *trav;
+                for(trav = T->children[j]; trav != NULL && trav->childIndex == i; trav = trav->next) {}
+                if(trav != NULL) {
+                    retVal = i;
+                    exist = true;
+                }
+            }
+        }
+    }
+
+    return retVal;
 }
 
 /**
@@ -107,6 +123,23 @@ Node left(const Tree *T) {
  */
 Node right(const Tree *T) {
     // TODO
+    int retVal = INVALID_NODE;
+    bool found = false;
+    for(int i = MAX_NODES - 1; i >= 0; i--) {
+        if(T->children[i] == NULL && i != T->rootIndex) {
+            for(int j = 0; j < MAX_NODES && !found; j++) {
+                ChildNode *trav;
+                for(trav = T->children[j]; trav != NULL && trav->childIndex != i; trav = trav->next) {
+                    if(trav != NULL) {
+                        retVal = i;
+                        found = true;
+                    }
+                }
+            }
+        }
+    }
+
+    return retVal;
 }
 
 /**
