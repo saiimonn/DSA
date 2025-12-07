@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #define MAX 10
 
 typedef enum { ROOT = -1, EMPTY = -2 } Status;
@@ -18,6 +19,9 @@ void initialize(Tree);
 void insert(Tree, int, int);
 void makenull(Tree);
 int leftchild(Tree, int);
+int rootIndex(Tree);
+int leftMost(Tree);
+int rightMost(Tree);
 int rightsibling(Tree, int);
 int parent(Tree, int);
 
@@ -78,6 +82,9 @@ int main() {
     printf("Parent of 4: %d\n", parent(T, 4));  // Should be 1
     printf("Parent of 5: %d\n", parent(T, 5));  // Should be 2
     printf("Parent of 0: %d\n", parent(T, 0));  // Should be ROOT
+
+    printf("The leftmost child is: %d\n", leftMost(T)); //should be 4
+    printf("The rightmost child is: %d\n", rightMost(T)); //should be 3
     
     return 0;
 }
@@ -113,6 +120,37 @@ int rightsibling(Tree T, int idx) {
     int i;
     for(i = idx + 1; i < MAX && T[i] != T[idx]; i++) {}    
     return (i != MAX) ? i : EMPTY;
+}
+
+int rootIndex(Tree T) {
+    int retval = EMPTY;
+    for(int i = 0; i < MAX; i++) {
+        if(T[i] == ROOT) retval = i;
+    }
+    return retval;
+}
+
+int leftMost(Tree T) {
+    if(rootIndex(T) != EMPTY) {
+        int retval = 0;
+        int prev;
+
+        while(retval != EMPTY) {
+            prev = retval;
+            retval = leftchild(T, retval);    
+        }
+
+        return prev;
+    }
+    return EMPTY;
+}
+
+int rightMost(Tree T) {
+    int last = EMPTY;
+    for(int i = 0; i < MAX; i++) {
+        if(T[i] == 0) last = i;
+    }
+    return last;
 }
 
 int parent(Tree T, int idx) {
