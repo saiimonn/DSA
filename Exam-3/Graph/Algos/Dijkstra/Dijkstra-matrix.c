@@ -97,6 +97,7 @@ int *dijkstra(Matrix M, int root) {
                 if(visited[j] == 0) {
                     // first condition: assigns smallestIdx to the first index that's not in the visited set
                     // second condition: compares current element and element of smallestIdx
+                    // checking if it's -1 just to assign it to an index
                     if(smallestIdx == -1 || shortestPath[j] < shortestPath[smallestIdx]) {
                         smallestIdx = j;
                     }

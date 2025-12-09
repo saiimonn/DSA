@@ -1,0 +1,18 @@
+Pseudocode for Floyd-Warshalls Algorithm
+
+Parameter/s: Matrix/List
+Return type: 2D Array
+
+1. Create a 2D array D[MAX][MAX]
+2. For i = 0 to MAX-1:
+       For j = 0 to MAX-1:
+            D[i][j] = M[i][j]
+3. For i = 0 to MAX-1:
+       D[i][i] = 0
+4. For k = 0 to MAX-1:
+       For i = 0 to MAX-1:
+            For j = 0 to MAX-1:
+                 w = D[i][k] + D[k][j]
+                 If w < D[i][j]:
+                      D[i][j] = w
+5. Return D

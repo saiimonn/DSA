@@ -1,0 +1,15 @@
+Pseudocode for Breadth-First Search traversal (using Queue)
+
+BFS(Graph, root):
+
+1. Initialize visited[] = FALSE for all vertices
+2. Initialize an empty Queue
+3. Mark root as visited
+4. Enqueue(root)
+5. While Queue is NOT empty:
+       current = Dequeue()
+       Print current
+       For v from 0 to MAX-1:
+            If v is adjacent to current AND visited[v] is FALSE:
+                 Mark visited[v] = TRUE
+                 Enqueue(v)

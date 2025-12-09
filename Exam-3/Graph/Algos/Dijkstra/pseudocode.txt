@@ -1,0 +1,21 @@
+Pseudocode for Dijkstra's Algorithm
+
+Parameters: Matrix/List, source vertex (int)
+Return type: Array
+
+1. Initialize array D[] with INF for all vertices
+2. Initialize visited[] with FALSE for all vertices
+3. Set D[source] = 0
+4. For i = 1 to MAX:
+    4.1 minIndex = -1
+    4.2 For each vertex v = 0 to MAX-1:
+        4.2.1 If visited[v] is FALSE AND
+              (minIndex == -1 OR D[v] < D[minIndex]):
+                 minIndex = v
+    4.3 visited[minIndex] = TRUE
+    4.4 For each vertex u = 0 to MAX-1:
+        4.4.1 If there is an edge from minIndex → u:
+                tempDist = D[minIndex] + weight(minIndex, u)    
+                If tempDist < D[u]:
+                    D[u] = tempDist
+5. Return D[]

@@ -1,0 +1,25 @@
+Pseudocode for Depth-First Search Traversal (Recursion)
+
+DFS(Graph, vertex):
+1. Mark vertex as visited
+2. Print vertex
+3. For each v from 0 to MAX-1:
+       If v is adjacent to vertex AND visited[v] is FALSE:
+            Call DFS(Graph, v)
+        
+--------------------------------------------------------------------------------
+Pseudocode for Depth-First Search Traversal (Stack)
+
+DFS_Stack(Graph, source):
+
+1. Initialize visited[] = FALSE for all vertices
+2. Initialize an empty Stack
+3. Push source onto the Stack
+4. While Stack is NOT empty:
+       current = Pop(Stack)
+       If visited[current] is FALSE:
+            Mark current as visited
+            Print current
+            For v from MAX-1 down to 0:
+                If v is adjacent to current AND visited[v] is FALSE:
+                     Push v onto the Stack
