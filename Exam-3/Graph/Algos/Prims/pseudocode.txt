@@ -1,0 +1,33 @@
+Pseudocode for Prim's Algorithm
+
+parameters: (Adjacency Matrix/List, source vertex)
+return type: Minimum Spanning Tree
+
+1. Initialize MST:
+    spanTree.edgeCount = 0
+    spanTree.totalWgt = 0
+2. Initialize visited set:
+    visited[0..n-1] = 0
+    visited[source] = 1
+3. Define number of edges to include:
+    numEdges = n - 1
+4. While spanTree.edgeCount < numEdges AND spanTree.totalWgt < INF:  
+    a. Initialize minEdge:
+        minEdge.weight = INF
+        minEdge.tail = -1
+        minEdge.head = -1
+    b. For each node i in 0..n-1:
+        If visited[i] == 1:  // i is already in MST
+            For each node j in 0..n-1:
+                If visited[j] == 0 AND M[i][j] < minEdge.weight:
+                    minEdge.tail = i
+                    minEdge.head = j
+                    minEdge.weight = M[i][j]
+    c. If minEdge.weight != INF:
+        - Add minEdge to spanTree.edges
+        - spanTree.edgeCount += 1
+        - spanTree.totalWgt += minEdge.weight
+        - visited[minEdge.head] = 1  
+    Else:
+        Break   
+5. Return spanTree
